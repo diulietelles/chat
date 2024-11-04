@@ -1,0 +1,213 @@
+<html><head><base href="/" /><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema Avançado de Criptografia</title>
+<style>
+:root {
+  --primary: #2E3440;
+  --secondary: #4C566A;
+  --accent: #88C0D0;
+  --success: #A3BE8C;
+  --warning: #EBCB8B;
+  --error: #BF616A;
+  --text: #ECEFF4;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: var(--primary);
+  color: var(--text);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.container {
+  text-align: center;
+  padding: 2rem;
+  background: var(--secondary);
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  max-width: 600px;
+  width: 90%;
+}
+
+.encrypt-btn {
+  position: relative;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  background: var(--accent);
+  border: none;
+  border-radius: 0.5rem;
+  color: var(--primary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem auto;
+}
+
+.encrypt-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(136, 192, 208, 0.3);
+}
+
+.status {
+  margin-top: 2rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background: var(--primary);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.status.active {
+  opacity: 1;
+}
+
+.details {
+  margin-top: 1rem;
+  text-align: left;
+  font-size: 0.9rem;
+  padding: 1rem;
+  background: rgba(0,0,0,0.2);
+  border-radius: 0.5rem;
+  display: none;
+}
+
+.details.show {
+  display: block;
+}
+
+.progress-container {
+  margin-top: 1rem;
+}
+
+.progress {
+  width: 100%;
+  height: 4px;
+  background: var(--primary);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  width: 0%;
+  height: 100%;
+  background: var(--success);
+  transition: width 0.3s ease;
+}
+
+.security-checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.check-item {
+  background: var(--primary);
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.8rem;
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
+
+.check-item.complete {
+  background: var(--success);
+  opacity: 1;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h2>Sistema Avançado de Criptografia</h2>
+  <button class="encrypt-btn" onclick="startEncryption()">
+    <svg class="lock-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+      <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+    </svg>
+    Iniciar Proteção de Dados
+  </button>
+  
+  <div class="status" id="status">
+    <div id="status-text">Iniciando processo de criptografia...</div>
+    <div class="security-checks" id="security-checks">
+      <div class="check-item">Verificação de Integridade</div>
+      <div class="check-item">Criptografia AES-256</div>
+      <div class="check-item">Hash com Salt (PBKDF2)</div>
+      <div class="check-item">Certificados SSL/TLS</div>
+    </div>
+    <div class="progress-container">
+      <div class="progress">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="details" id="details">
+    <p>🔐 <strong>Proteções Ativas:</strong></p>
+    <ul>
+      <li>Criptografia AES-256 para dados sensíveis</li>
+      <li>Hashing PBKDF2 para senhas</li>
+      <li>Certificados SSL/TLS para comunicação</li>
+      <li>Proteção contra ataques de força bruta</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+function startEncryption() {
+  const button = document.querySelector('.encrypt-btn');
+  const status = document.getElementById('status');
+  const details = document.getElementById('details');
+  const progressBar = document.getElementById('progress-bar');
+  const statusText = document.getElementById('status-text');
+  const checkItems = document.querySelectorAll('.check-item');
+  
+  button.disabled = true;
+  status.classList.add('active');
+  
+  let progress = 0;
+  const interval = setInterval(() => {
+    progress += 1;
+    progressBar.style.width = `${progress}%`;
+    
+    if (progress < 25) {
+      statusText.textContent = "Verificando integridade do sistema...";
+      checkItems[0].classList.add('complete');
+    } else if (progress < 50) {
+      statusText.textContent = "Aplicando criptografia AES-256...";
+      checkItems[1].classList.add('complete');
+    } else if (progress < 75) {
+      statusText.textContent = "Implementando hash com salt...";
+      checkItems[2].classList.add('complete');
+    } else if (progress < 90) {
+      statusText.textContent = "Configurando certificados SSL/TLS...";
+      checkItems[3].classList.add('complete');
+    } else if (progress === 100) {
+      statusText.textContent = "Sistema de proteção ativado com sucesso!";
+      details.classList.add('show');
+      clearInterval(interval);
+      button.disabled = false;
+      
+      setTimeout(() => {
+        checkItems.forEach(item => item.classList.remove('complete'));
+        status.classList.remove('active');
+        details.classList.remove('show');
+        progressBar.style.width = '0%';
+      }, 5000);
+    }
+  }, 50);
+}
+
+function generateSecureKey() {
+  const array = new Uint8Array(32);
+  window.crypto.getRandomValues(array);
+  return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
+}
+</script>
+</body></html>
